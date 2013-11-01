@@ -1,0 +1,13 @@
+line {
+    stroke: blue;
+    stroke-width: 2px;
+}
+
+circle {
+    fill: purple;
+}
+
+text {
+    font-size: 12px;
+    fill: red;
+}

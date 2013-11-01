@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Learning D3</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="script.js" type="text/javascript" ></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            var dataset = [34, 45, 3, 5, 60, 25, 18, 14, 30, 34, 45, 3, 5, 60, 25, 18, 14, 30, 34, 45];
+            d3.select("body")
+                .selectAll("p")
+                .data(dataset)
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", function(d){
+                    return d + "px";
+                });
+            
+            var dataset2 = [5, 10, 15, 20, 25];
+            var current_position =  0;
+            var previous_r =  0;
+            
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width", "500")
+                .attr("height", "100");
+            
+            svg.selectAll("circle")
+                .data(dataset2)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d, i){
+                    debugger;
+                    current_position = current_position + previous_r + d + 10; 
+                    previous_r  = d;
+                    return current_position;
+                })
+                .attr("cy", "25")
+                .attr("r", function(d, i) {return d;})
+                .attr("fill", "orange")
+                .attr("stroke", "red")
+                .attr("stroke-width", "1");
+                
+        </script>
+        
+        <svg width="500" height="50">
+            <rect x="0" y="0" height="15" width="20"/>
+            <circle cx="100" cy="10" r="10"/>
+            <ellipse cx="250" cy="10" rx="100" ry="25"/>
+            <line x1="400" y1="15" x2="500" y2="50" stroke="black"/>
+            <text x="400" y="10">Easy Peesy</text>
+        </svg>
+        
+    </body>
+</html>

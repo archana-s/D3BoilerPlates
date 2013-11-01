@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Pratice Scatter Plot </title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var w = 500;
+            var h = 130;
+            var padding = 30;
+            
+            var dataset = [[33,200], [405,35], [84,38], [10,56], [34,44], [74, 209], [23,45], [34,500], [23, 1000]];
+            
+            //Scale (domain and range) 
+            var xScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset, function(d) {return d[0];})])
+                            .rangeRound ([0, w]);
+            
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset, function(d){return d[1];})])
+                            .range([h-padding, 0]); 
+            
+            
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+            
+            svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .attr("cx",function(d){
+                    return xScale(d[0]);
+                })
+                .attr("cy",function(d){
+                    return yScale(d[1]);
+                })
+                .attr("r",3);
+            
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function(d){
+                    return "(" + d[0] + "," + d[1] + ")";
+                })
+                .attr("x", function(d) {return xScale(d[0]);})
+                .attr("y", function(d) {return yScale(d[1]);})
+                .attr("font-size", "6px");
+            
+            var xAxis = d3.svg.axis()
+                            .scale(xScale)
+                            .orient ("bottom")
+                            .ticks(5);
+            
+            var yAxis = d3.svg.axis()
+                          .scale(yScale)
+                          .orient("left")
+                          .ticks(5);
+            
+            svg.append("g")
+                .attr("class", "axis")
+                .attr ("transform", "translate(0," + (h-padding) + ")")
+                .call(xAxis);
+            
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(10, 0)")
+                .call(yAxis);
+            
+            
+        </script>
+    </body>
+</html>

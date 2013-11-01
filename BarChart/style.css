@@ -1,0 +1,9 @@
+.reference {
+    font-size: 8pt;
+    fill: blue;
+    text-anchor: middle;
+}
+
+p {
+    cursor: pointer;
+}

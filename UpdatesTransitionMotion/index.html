@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title> Updates, Transitions and Motion Learning </title>        
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <h3>Bachelor Degree holders potentially in workforce - California from 2000 - 2009</h3>
+        <script type="text/javascript">
+            var w = 500;
+            var h = 100;
+            var padding = 50;
+            
+            var dataset = [31, 32, 33, 35, 35, 35, 34, 35, 35, 38];
+            
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w + padding)
+                        .attr("height", h + padding);
+            
+            svg.selectAll("rect")
+                .data(dataset)
+                .enter()
+                .append("rect")
+                .attr("x", function(d, i){return i * 26;})
+                .attr("y", function(d, i) {return h - d;} )
+                .attr("width", function(d, i){return 25;})
+                .attr("height", function(d, i){return d;})
+                .attr("fill", "blue");
+           
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .attr("x", function(d,i) {return i * 26;})
+                .attr("y", function(d, i) {return h - d + 12;})
+                .text(function(d){return d;})
+                .attr("font-size", "9px")
+                .attr("fill", "white");
+                        
+        </script>
+    </body>
+</html>

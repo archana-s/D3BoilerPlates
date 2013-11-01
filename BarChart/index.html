@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <title>Simple Bar Chart</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    
+    <body>
+        <p>Click here to update data as many number of times as you please</p>
+        <script type="text/javascript">
+            
+            var chartWidth = 600;
+            var chartHeight = 250;
+            var barPadding = 1;
+            
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", chartWidth)
+                        .attr("height", chartHeight);
+            
+            var dataset = [5, 23, 14, 34, 26, 63, 7, 25, 62, 9, 14, 22, 52, 29];
+            
+            // Creating an ordinal scale
+            var xScale = d3.scale.ordinal()
+                            .domain(d3.range(dataset.length))
+                            .rangeRoundBands([0, chartWidth], 0.05);
+            
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset)])
+                            .range([chartHeight, 50]);
+            
+            svg.selectAll("rect")
+                .data(dataset)
+                .enter()
+                .append("rect")
+                .attr("x", function(d,i){return xScale(i);})
+                .attr("y", function(d, i){ return yScale(d+10);})
+                .attr("width", xScale.rangeBand())
+                .attr("height", function(d) {return chartHeight - yScale(d+10);})
+                .attr("fill", function(d) {
+                        return "rgb(255, 0, " + (d * 10) + ")";
+                });
+            
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function(d) {return d;})
+                .attr("x", function(d, i) {
+                    return (i*(chartWidth/dataset.length) + ((chartWidth/dataset.length - 1)/2));
+                 })
+                .attr("y", function(d, i) {
+                    return yScale(d+10) + 10;
+                })
+                .attr("class", "reference");
+            
+            
+            d3.select("p")
+                .on ("click", function() {
+                    //dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25, 5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
+                    
+                    var numValues = dataset.length;
+                    dataset = [];
+                    var maxvalue = 100;
+                    for (var i=0;i<numValues;i++){
+                        var val = Math.floor(Math.random() * maxvalue);
+                        dataset.push(val);
+                    }
+                    
+                    yScale.domain([0, d3.max(dataset)]);
+                    
+                    d3.selectAll("rect")
+                        .data(dataset)
+                        .transition()
+                        .duration(1000)
+                        .ease("cube-in-out")
+                        .delay(function(d, i){return i/dataset.length * 500;})
+                        .attr("y", function(d, i) {return yScale(d+10);})
+                        .attr("height", function(d) {return  chartHeight - yScale(d+10);})
+                        .attr("fill", function(d) {return "rgb(255, 0 ," + (d * 10) +")"}); 
+                    
+                    d3.selectAll("text")
+                      .data(dataset)
+                      .transition()
+                      .duration(1000)
+                      .ease("cube-in-out")
+                      .delay(function(d, i){return i/dataset.length * 500;})    
+                      .text(function(d){return d;})
+                      .attr("y", function(d, i) {return yScale(d+10) + 10;});    
+                });
+            
+        </script>
+    </body>
+
+</html>

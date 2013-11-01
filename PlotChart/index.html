@@ -1,0 +1,82 @@
+<html>
+    <head> 
+        <title>Plot Line Chart</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            
+            // get the dataset 
+            var dataset = [20, 68, 36, 72, 70, 29, 5, 34, 7, 23, 63, 92, 4, 2, 0];
+            
+            // height and width for canvas 
+            var w = 500;
+            var h = 150;
+            var h_padding = 10;
+            
+            //Create the svg canvas
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+            
+           
+            var x_curr_position = 10; 
+            var y_curr_position = 0;
+            var x_pos = 10; 
+            var x2_pos = 10;
+            
+            var x_increment = 30;
+            h = h - h_padding;
+            
+            svg.selectAll("line")
+                .data(dataset)
+                .enter()
+                .append("line")
+                .attr("x1", function(d) {
+                    //x_pos = x_pos + x_increment;
+                    //x_curr_position = x_pos;
+                    x_curr_position += x_increment;
+                    return x_curr_position - x_increment;
+                })
+                .attr("y1", function(d){
+                    var y_pos = y_curr_position;
+                    y_curr_position = d;
+                    return h - y_pos;
+                })
+                .attr("x2", function(d){
+                    x2_pos = x2_pos + x_increment;
+                    return x2_pos;
+                })
+                .attr("y2", function(d){
+                    return h - d;
+                }); 
+            
+            var curr_pos = 10;
+            svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d) {curr_pos += x_increment; return curr_pos;})
+                .attr("cy", function(d){return h-d;})
+                .attr("r", 3);
+            
+            curr_pos = 10;
+            x_increment = 30;
+            
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .attr("x", function(d) {curr_pos += x_increment; return curr_pos;})
+                .attr("y", function(d){return h-d-5;})
+                .text(function(d){return d;});
+            
+            
+        
+        </script>
+    </body>
+    
+</html>
